@@ -1,7 +1,7 @@
-FROM alpine:latest
+FROM ubuntu:24.04
 
 # Install essential tools as root
-RUN apk add --no-cache \
+RUN apt-get update && apt-get install -y \
     curl \
     git \
     wget \
@@ -10,12 +10,13 @@ RUN apk add --no-cache \
     neovim \
     ca-certificates \
     gnupg \
-    build-base \
+    build-essential \
     unzip \
     stow \
     make \
     bash \
-    fzf
+    fzf \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Go (latest version from go.dev)
 RUN bash -c 'GO_VERSION=$(curl -s "https://go.dev/VERSION?m=text" | head -n1) && \
@@ -33,8 +34,8 @@ RUN GH_VERSION=$(curl -s https://api.github.com/repos/cli/cli/releases/latest | 
     echo "Installed GitHub CLI version: ${GH_VERSION}"
 
 # Create dev user (no sudo)
-RUN addgroup -g 1001 dev && \
-    adduser -D -u 1001 -G dev -s /bin/zsh dev
+RUN groupadd -g 1001 dev && \
+    useradd -m -u 1001 -g dev -s /bin/zsh dev
 
 # Create Go directories for dev user
 RUN mkdir -p /home/dev/go/{bin,src,pkg} && \
@@ -56,10 +57,6 @@ RUN ln -sf /home/dev/.bun/bin/bun /home/dev/.bun/bin/node
 
 # Install OpenCode via Bun (using full path since PATH not updated yet)
 RUN /home/dev/.bun/bin/bun install -g opencode-ai
-
-# Fix opencode symlink to point to the correct binary (Alpine uses opencode-linux-x64-musl)
-RUN rm /home/dev/.bun/bin/opencode && \
-    ln -sf /home/dev/.bun/install/global/node_modules/opencode-linux-x64-musl/bin/opencode /home/dev/.bun/bin/opencode
 
 # Set environment variables for dev user
 ENV PATH="/usr/local/go/bin:/home/dev/.bun/bin:${PATH}"
