@@ -7,7 +7,6 @@ steps:
     image: alpine:latest
     commands:
       - echo "$(date +%Y%m%d-%H%M%S)" > .tags
-      - echo "latest" >> .tags
 
   - name: build-and-push-image
     image: plugins/docker
@@ -34,7 +33,6 @@ steps:
     image: alpine:latest
     commands:
       - echo "$(date +%Y%m%d-%H%M%S)" > .tags
-      - echo "latest" >> .tags
 
   - name: build-and-push-image
     image: plugins/docker
