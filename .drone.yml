@@ -1,0 +1,27 @@
+kind: pipeline
+type: kubernetes
+name: default
+
+steps:
+  - name: generate-timestamp
+    image: alpine:latest
+    commands:
+      - echo "TIMESTAMP=$(date +%Y%m%d-%H%M%S)" >> $DRONE_ENV
+
+  - name: build-and-push-image
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      repo: mellena1/dev-environment
+      tags:
+        - latest
+        - ${TIMESTAMP}
+
+trigger:
+  cron:
+    - daily
+  event:
+    - cron

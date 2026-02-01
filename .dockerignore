@@ -1,0 +1,15 @@
+.git
+.gitignore
+.gitignore
+README.md
+*.md
+node_modules
+.env
+dist
+build
+coverage
+.nyc_output
+*.log
+.DS_Store
+Thumbs.db
+dotfiles/.git
