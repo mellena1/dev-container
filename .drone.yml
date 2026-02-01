@@ -6,7 +6,8 @@ steps:
   - name: generate-timestamp
     image: alpine:latest
     commands:
-      - echo "TIMESTAMP=$(date +%Y%m%d-%H%M%S)" >> $DRONE_ENV
+      - echo -n "$(date +%Y%m%d-%H%M%S)" > .tags
+      - echo -n "latest" >> .tags
 
   - name: build-and-push-image
     image: plugins/docker
@@ -15,9 +16,7 @@ steps:
       password:
         from_secret: docker_password
       repo: mellena1/dev-environment
-      tags:
-        - latest
-        - ${TIMESTAMP}
+      tags_file: .tags
 
 trigger:
   cron:
@@ -34,7 +33,8 @@ steps:
   - name: generate-timestamp
     image: alpine:latest
     commands:
-      - echo "TIMESTAMP=$(date +%Y%m%d-%H%M%S)" >> $DRONE_ENV
+      - echo -n "$(date +%Y%m%d-%H%M%S)" > .tags
+      - echo -n "latest" >> .tags
 
   - name: build-and-push-image
     image: plugins/docker
@@ -43,10 +43,10 @@ steps:
       password:
         from_secret: docker_password
       repo: mellena1/dev-environment
-      tags:
-        - latest
-        - ${TIMESTAMP}
+      tags_file: .tags
 
 trigger:
   branch:
     - main
+  event:
+    - push
