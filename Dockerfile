@@ -7,7 +7,6 @@ RUN apt-get update && apt-get install -y \
     wget \
     zsh \
     tmux \
-    neovim \
     ca-certificates \
     gnupg \
     build-essential \
@@ -16,7 +15,14 @@ RUN apt-get update && apt-get install -y \
     make \
     bash \
     fzf \
+    software-properties-common \
     && rm -rf /var/lib/apt/lists/*
+
+# Add Neovim PPA and install latest version
+RUN add-apt-repository -y ppa:neovim-ppa/unstable && \
+    apt-get update && \
+    apt-get install -y neovim && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install Go (latest version from go.dev)
 RUN bash -c 'GO_VERSION=$(curl -s "https://go.dev/VERSION?m=text" | head -n1) && \
