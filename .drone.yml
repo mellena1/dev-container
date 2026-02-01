@@ -11,8 +11,7 @@ steps:
   - name: build-and-push-image
     image: plugins/docker
     settings:
-      username:
-        from_secret: docker_username
+      username: mellena1
       password:
         from_secret: docker_password
       repo: mellena1/dev-environment
