@@ -40,6 +40,10 @@ RUN addgroup -g 1001 dev && \
 RUN mkdir -p /home/dev/go/{bin,src,pkg} && \
     chown -R dev:dev /home/dev/go
 
+# Set up .local folder
+RUN mkdir -p /home/dev/.local/share && \
+    chown -R dev:dev /home/dev/.local
+
 # Install bun and OpenCode as dev user
 USER dev
 WORKDIR /home/dev
