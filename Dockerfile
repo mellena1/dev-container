@@ -68,6 +68,8 @@ RUN /home/dev/.bun/bin/bun install -g opencode-ai
 ENV PATH="/usr/local/go/bin:/home/dev/.bun/bin:${PATH}"
 ENV GOPATH="/home/dev/go"
 ENV GOBIN="$GOPATH/bin"
+# Force opencode to use glibc binary (not musl)
+ENV OPENCODE_BIN_PATH="/home/dev/.bun/install/global/node_modules/opencode-linux-x64/bin/opencode"
 
 # Clone dotfiles from public repository and use stow to create symlinks
 RUN git clone https://github.com/mellena1/dotfiles.git /home/dev/.dotfiles && \
