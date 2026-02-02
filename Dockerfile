@@ -51,7 +51,8 @@ RUN mkdir -p /home/dev/go/{bin,src,pkg} && \
 RUN mkdir -p /home/dev/.local/share && \
     chown -R dev:dev /home/dev/.local && \
     mkdir -p /home/dev/.ssh && \
-    chown -R dev:dev /home/dev/.ssh
+    chown -R dev:dev /home/dev/.ssh && \
+    chmod 700 /home/dev/.ssh
 
 # Install bun and OpenCode as dev user
 USER dev
