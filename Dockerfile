@@ -47,9 +47,11 @@ RUN groupadd -g 1001 dev && \
 RUN mkdir -p /home/dev/go/{bin,src,pkg} && \
     chown -R dev:dev /home/dev/go
 
-# Set up .local folder
+# Set up home folders
 RUN mkdir -p /home/dev/.local/share && \
-    chown -R dev:dev /home/dev/.local
+    chown -R dev:dev /home/dev/.local && \
+    mkdir -p /home/dev/.ssh && \
+    chown -R dev:dev /home/dev/.ssh
 
 # Install bun and OpenCode as dev user
 USER dev
